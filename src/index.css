@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#root {
+  --lightSeaGreen: #20B2AA;
+  --darkCyan: #008B8B;
+  --teal: #008080;
+  --white: #fff;
+  --black: #000;
+}
+html{
+  height: 97vh;
+}

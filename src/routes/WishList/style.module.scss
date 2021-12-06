@@ -1,0 +1,21 @@
+.wishList {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    grid-gap: 2rem;
+    input {
+        font-size: 2rem;
+        border: none;
+        border-bottom: 1px solid var(--black);
+    }
+}
+.buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    button {
+        margin: 15px 15px 0 0;
+    }
+}
