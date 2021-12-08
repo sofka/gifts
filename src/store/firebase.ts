@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import { getDatabase, ref, get, child } from 'firebase/database'
+import { getDatabase, ref, get, child, set } from 'firebase/database'
+import { TWishList } from '../types'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyARQaSuRhJOdzXfuY_xLZ3huWfTykm8Op8',
@@ -11,7 +12,8 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-const dbRef = ref(getDatabase(app))
+const db = getDatabase(app)
+const dbRef = ref(db)
 export const getAll = get(dbRef)
   .then(snapshot => {
     if (snapshot.exists()) {
@@ -36,4 +38,11 @@ export const getById = (id: string) => {
     .catch(error => {
       console.error(error)
     })
+}
+
+export const saveWishList = (id: string, wishList: TWishList) => {
+  set(ref(db, `${id}`), {
+    name: wishList.name,
+    items: wishList.items
+  })
 }
