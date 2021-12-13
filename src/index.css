@@ -13,8 +13,9 @@ code {
   --lightSeaGreen: #20B2AA;
   --darkCyan: #008B8B;
   --teal: #008080;
-  --white: #fff;
+  --white: rgb(255, 255, 255);
   --black: #000;
+  --grey:  rgb(194, 189, 189)
 }
 html{
   height: 97vh;

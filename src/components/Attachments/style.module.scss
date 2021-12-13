@@ -1,0 +1,17 @@
+.attachments {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.attachments__img {
+    position: relative;
+}
+
+.attachments__remover {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

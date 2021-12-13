@@ -107,6 +107,7 @@ const WishList: FC = () => {
       <h1>Хотелочки</h1>
 
       <input
+        className={style.wishList__input}
         placeholder="Имя хотелочки"
         value={name}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>

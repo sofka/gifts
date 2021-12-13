@@ -1,0 +1,35 @@
+.file {
+    padding: 15px 0;
+}
+
+.file__wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.file__input {
+    opacity: 0;
+    position: absolute;
+    visibility: hidden;
+}
+
+.file__label {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    background-color: var(--darkCyan);
+    color: var(--white);
+    max-width: 180px;
+}
+
+.file__label_disabled {
+    background-color: var(--grey);
+    pointer-events: none;
+}
+
+.file__attach {
+    transform: rotate(90deg);
+}

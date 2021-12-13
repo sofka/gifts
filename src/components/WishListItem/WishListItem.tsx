@@ -23,7 +23,10 @@ const WishListItem: FC<WishListItemProps> = (props) => {
   return (
     <li className={style.list_item} key={id}>
       <span onClick={onClick}>{text}</span>
-      <span onClick={onDelete}>
+      <span
+        className={style.list_item__icons}
+        onClick={onDelete}
+      >
         <Trash />
       </span>
     </li>
