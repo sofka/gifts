@@ -78,6 +78,7 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setName(e.target.value)
             }
+            placeholder="Наименование пункта"
           />
           <div>
             <File loadFile={loadFile} disabled={disabled} />
