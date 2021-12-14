@@ -14,7 +14,7 @@ const Attachments: FC<AttachmentsProps> = (props) => {
     <div className={style.attachments}>
       {images.map((image, index) => {
         return (
-          <div className={style.attachments__img}>
+          <div key={`${index}_attach`} className={style.attachments__img}>
             <img
               key={index}
               src={image}

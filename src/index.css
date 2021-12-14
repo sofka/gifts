@@ -17,6 +17,11 @@ code {
   --black: #000;
   --grey:  rgb(194, 189, 189)
 }
+
+input {
+  text-transform:capitalize;
+}
+
 html{
   height: 97vh;
 }
