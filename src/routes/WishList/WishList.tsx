@@ -3,18 +3,26 @@ import { getById, saveWishList } from "../../store/firebase";
 import Button from "../../components/Button/Button";
 import WishListItems from "../../components/WishListItems";
 import { useNavigate } from "react-router-dom";
-
 import style from "./style.module.scss";
 import { isUUID, uuid } from "../../helper";
 import { useParams } from "react-router";
 import { TWishList, TWishListItem } from "../../types";
 import WishListItemWindow from "../../components/WishListItemWindow";
+import Share from "../../assets/svgComponents/Share";
+import ShareWindow from "../../components/ShareWindow";
+
+enum CloseType {
+  wishListItemWindow,
+  shareWindow,
+}
 
 const WishList: FC = () => {
   const [name, setName] = useState("");
   const [items, setItems] = useState<TWishListItem[]>();
   const [isLoading, setIsLoading] = useState(false);
-  const [isOpenWindow, setIsOpenWindow] = useState(false);
+  const [isOpenWishListItemWindow, setIsOpenWishListItemWindow] =
+    useState(false);
+  const [isOpenShareWindow, setIsOpenShareWindow] = useState(false);
   const [selectedItem, setSelectedItem] = useState<TWishListItem>();
   const navigation = useNavigate();
   const { id } = useParams();
@@ -24,11 +32,18 @@ const WishList: FC = () => {
 
   const add = () => {
     setSelectedItem(undefined);
-    setIsOpenWindow(true);
+    setIsOpenWishListItemWindow(true);
   };
 
-  const close = () => {
-    setIsOpenWindow(false);
+  const close = (type: CloseType) => {
+    switch (type) {
+      case CloseType.wishListItemWindow:
+        setIsOpenWishListItemWindow(false);
+        break;
+      case CloseType.shareWindow:
+        setIsOpenShareWindow(false);
+        break;
+    }
   };
 
   const saveItem = (newItem: TWishListItem) => {
@@ -86,7 +101,7 @@ const WishList: FC = () => {
 
   const onSelectItem = (selectedItem: TWishListItem) => {
     setSelectedItem(selectedItem);
-    setIsOpenWindow(true);
+    setIsOpenWishListItemWindow(true);
   };
 
   const onDeleteItem = (selectedItem: TWishListItem) => {
@@ -100,6 +115,10 @@ const WishList: FC = () => {
       const newItems = [...before, ...after];
       setItems(newItems);
     }
+  };
+
+  const share = () => {
+    setIsOpenShareWindow(true);
   };
 
   return (
@@ -118,6 +137,9 @@ const WishList: FC = () => {
         <Button onClick={add} blockModifier={"square"}>
           <div>+</div>
         </Button>
+        <Button onClick={share} blockModifier={"square"}>
+          <Share color="var(--white)" />
+        </Button>
       </div>
 
       <WishListItems
@@ -125,12 +147,15 @@ const WishList: FC = () => {
         onSelectItem={onSelectItem}
         onDeleteItem={onDeleteItem}
       />
-      {isOpenWindow && (
+      {isOpenWishListItemWindow && (
         <WishListItemWindow
-          onClose={close}
+          onClose={() => close(CloseType.wishListItemWindow)}
           saveItem={saveItem}
           selectedItem={selectedItem}
         />
+      )}
+      {isOpenShareWindow && (
+        <ShareWindow onClose={() => close(CloseType.shareWindow)} />
       )}
     </div>
   );

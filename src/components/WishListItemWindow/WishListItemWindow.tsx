@@ -1,10 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import Close from "../../assets/svgComponents/Close";
 import { uuid } from "../../helper";
 import { TWishListItem } from "../../types";
 import Attachments from "../Attachments";
-import Button from "../Button/Button";
 import File from "../File";
+import Modal from "../Modal";
 import style from "./style.module.scss";
 
 type WishListItemWindowProps = {
@@ -62,36 +61,19 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
   const title = selectedItem ? "Редактирование" : "Добавление";
   const [name, setName] = useState(selectedItem ? selectedItem.name : "");
   return (
-    <div className={style.modal}>
-      <div className={style.modal__content}>
-        <div className={style.modal__header}>
-          <span className={style.modal__title}>{title}</span>
-          <span className={style.modal__close} onClick={onClose}>
-            <Close />
-          </span>
-        </div>
-        <div className={style.modal__body}>
-          <input
-            type="text"
-            className={style.modal__input}
-            value={name}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setName(e.target.value)
-            }
-            placeholder="Наименование пункта"
-          />
-          <div>
-            <File loadFile={loadFile} disabled={disabled} />
-          </div>
-          {images && <Attachments images={images} remove={removeImage} />}
-        </div>
-        <div className={style.modal__footer}>
-          <Button onClick={onSave} blockModifier={"big"}>
-            <div>Сохранить</div>
-          </Button>
-        </div>
+    <Modal title={title} onClose={onClose} onSave={() => onSave()}>
+      <input
+        type="text"
+        className={style.wishListItemWindow__input}
+        value={name}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+        placeholder="Наименование пункта"
+      />
+      <div>
+        <File loadFile={loadFile} disabled={disabled} />
       </div>
-    </div>
+      {images && <Attachments images={images} remove={removeImage} />}
+    </Modal>
   );
 };
 export default WishListItemWindow;
