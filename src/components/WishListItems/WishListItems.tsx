@@ -1,12 +1,12 @@
 import { FC } from "react";
-import { TWishListItem } from "../../types";
+import { CWishListItem } from "../../types";
 import WishListItem from "../WishListItem";
 import style from './style.module.scss'
 
 type WishListItemsProps = {
-  items?: TWishListItem[];
-  onSelectItem?: (selectedItem: TWishListItem) => void;
-  onDeleteItem?: (selectedItem: TWishListItem) => void;
+  items?: CWishListItem[];
+  onSelectItem?: (selectedItem: CWishListItem) => void;
+  onDeleteItem?: (selectedItem: CWishListItem) => void;
 };
 
 const WishListItems: FC<WishListItemsProps> = (props) => {

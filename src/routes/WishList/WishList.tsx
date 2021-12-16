@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import style from "./style.module.scss";
 import { isUUID, uuid } from "../../helper";
 import { useParams } from "react-router";
-import { TWishList, TWishListItem } from "../../types";
+import { TWishList, CWishListItem } from "../../types";
 import WishListItemWindow from "../../components/WishListItemWindow";
 import Share from "../../assets/svgComponents/Share";
 import ShareWindow from "../../components/ShareWindow";
@@ -18,12 +18,12 @@ enum CloseType {
 
 const WishList: FC = () => {
   const [name, setName] = useState("");
-  const [items, setItems] = useState<TWishListItem[]>();
+  const [items, setItems] = useState<CWishListItem[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenWishListItemWindow, setIsOpenWishListItemWindow] =
     useState(false);
   const [isOpenShareWindow, setIsOpenShareWindow] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<TWishListItem>();
+  const [selectedItem, setSelectedItem] = useState<CWishListItem>();
   const navigation = useNavigate();
   const { id } = useParams();
   let guid = id;
@@ -46,7 +46,7 @@ const WishList: FC = () => {
     }
   };
 
-  const saveItem = (newItem: TWishListItem) => {
+  const saveItem = (newItem: CWishListItem) => {
     if (newItem) {
       let newItems = [...(items || [])] || [];
       const foundIndex = items?.findIndex((item) => {
@@ -99,12 +99,12 @@ const WishList: FC = () => {
     setName(name);
   };
 
-  const onSelectItem = (selectedItem: TWishListItem) => {
+  const onSelectItem = (selectedItem: CWishListItem) => {
     setSelectedItem(selectedItem);
     setIsOpenWishListItemWindow(true);
   };
 
-  const onDeleteItem = (selectedItem: TWishListItem) => {
+  const onDeleteItem = (selectedItem: CWishListItem) => {
     const foundIndex = items?.findIndex((item) => {
       return item.id === selectedItem.id;
     });

@@ -18,3 +18,8 @@ export const uuid = () => {
   })
   return uuid
 }
+
+export const isValidUrl = (url: string) => {
+  var urlRegex = /(https?:\/\/[^\s]+)/g
+  return urlRegex.test(url)
+}

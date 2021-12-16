@@ -8,3 +8,4 @@ export const changingInput = () =>
       input.value = newValue
     }
   })
+

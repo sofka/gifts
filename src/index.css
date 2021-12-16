@@ -15,13 +15,9 @@ code {
   --teal: #008080;
   --white: rgb(255, 255, 255);
   --black: #000;
-  --grey:  rgb(194, 189, 189)
+  --grey: rgb(194, 189, 189)
 }
 
-input {
-  text-transform:capitalize;
-}
-
-html{
+html {
   height: 97vh;
 }
