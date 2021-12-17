@@ -3,6 +3,7 @@ import { uuid, isValidUrl } from "../../helper";
 import { CWishListItem } from "../../types";
 import Attachments from "../Attachments";
 import File from "../File";
+import Link from "../Link";
 import Modal from "../Modal";
 import style from "./style.module.scss";
 
@@ -23,14 +24,13 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
   );
   const onSave = () => {
     const newItem = new CWishListItem(
-       selectedItem ? selectedItem.id : uuid(),
+      selectedItem ? selectedItem.id : uuid(),
       name,
       name,
-       images || [],
-      links || [],
-    )
-    
-    ;
+      images || [],
+      links || []
+    );
+
     saveItem && saveItem(newItem);
     onClose && onClose();
   };
@@ -58,7 +58,8 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
   };
 
   const pastLink = (link: string) => {
-    const newLinks = [...links, link];
+    const newSet = new Set<string>([...links, link])
+    const newLinks = Array.from(newSet);
     setLinks(newLinks);
   };
 
@@ -98,6 +99,7 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
       {images && <Attachments images={images} remove={removeImage} />}
 
       <input
+        className={style.wishListItemWindow__pastedInput}
         ref={pastInputRef}
         id="pastInput"
         disabled
@@ -105,16 +107,15 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
       />
 
       {links && (
-        <div>
+        <div className={style.wishListItemWindow__links}>
           {links.map((link, index) => {
             const showIndex = index + 1;
             return (
-              <a
-                key={`link_${showIndex}`}
+              <Link
                 href={link}
                 target="_blank"
-                rel="noopener noreferrer"
-              >{`Ссылка № ${showIndex}`}</a>
+                text={`Ссылка № ${showIndex}`}
+              />
             );
           })}
         </div>

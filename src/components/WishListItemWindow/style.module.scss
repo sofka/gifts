@@ -4,3 +4,15 @@
     border-bottom: 1px solid var(--black);
     font-size: 1.4rem;
 }
+
+.wishListItemWindow__pastedInput{
+    width: 100%;
+}
+
+.wishListItemWindow__links{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
