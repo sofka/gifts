@@ -9,6 +9,14 @@
     align-items: center;
 }
 
+$WINDOW_SIZE_MOBILE_S: 320px;
+$WINDOW_SIZE_MOBILE_M: 375px;
+$WINDOW_SIZE_MOBILE_L: 425px;
+$WINDOW_SIZE_TABLET: 768px;
+$WINDOW_SIZE_LAPTOP: 1024px;
+$WINDOW_SIZE_LAPTOP_L: 1440px;
+$WINDOW_SIZE_DESCTOP: 2560px;
+
 .modal__content {
     position: relative;
     padding: 15px;
@@ -18,7 +26,20 @@
     margin: auto;
     top: 5%;
     border-radius: 1.6rem;
+    @media only screen and (min-width: $WINDOW_SIZE_MOBILE_S) {
+        width: 280px;
+    }
+    @media only screen and (min-width: $WINDOW_SIZE_MOBILE_M) {
+        width: $WINDOW_SIZE_MOBILE_S;
+    }
+    @media only screen and (min-width: $WINDOW_SIZE_MOBILE_L) {
+        width: $WINDOW_SIZE_MOBILE_M;
+    }
+    @media only screen and (min-width: $WINDOW_SIZE_TABLET) {
+        width: $WINDOW_SIZE_MOBILE_L;
+    }
 }
+
 
 .modal__header {
     display: flex;
@@ -42,7 +63,6 @@
 .modal__body {
     padding: 10px;
 }
-
 
 .modal__footer {
     position: absolute;

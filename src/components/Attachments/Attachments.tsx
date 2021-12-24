@@ -19,8 +19,8 @@ const Attachments: FC<AttachmentsProps> = (props) => {
               key={index}
               src={image}
               alt={`Картинка_${index}`}
-              width={150}
-              height={150}
+              width={120}
+              height={120}
             />
             <span
               className={style.attachments__remover}

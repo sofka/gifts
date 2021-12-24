@@ -20,6 +20,7 @@ export class CWishListItem {
 }
 
 export type TWishList = {
+  id: string,
   name: string
   items: CWishListItem[]
 }

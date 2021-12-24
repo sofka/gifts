@@ -1,5 +1,4 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { getById, saveWishList } from "../../store/firebase";
 import Button from "../../components/Button/Button";
 import WishListItems from "../../components/WishListItems";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +9,12 @@ import { TWishList, CWishListItem } from "../../types";
 import WishListItemWindow from "../../components/WishListItemWindow";
 import Share from "../../assets/svgComponents/Share";
 import ShareWindow from "../../components/ShareWindow";
+import {
+  useGetWishListByIdMutation,
+  useSaveWishListMutation,
+  useUpdateWishListMutation,
+} from "../../redux/api/wishList";
+import { useGetByWishListIdMutation } from "../../redux/api/wishListItem";
 
 enum CloseType {
   wishListItemWindow,
@@ -24,10 +29,15 @@ const WishList: FC = () => {
     useState(false);
   const [isOpenShareWindow, setIsOpenShareWindow] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CWishListItem>();
+  const [getWishListById] = useGetWishListByIdMutation();
+  const [getWishListItems] = useGetByWishListIdMutation();
+
+  const [saveWishList] = useSaveWishListMutation();
+  const [updateWishList] = useUpdateWishListMutation();
   const navigation = useNavigate();
   const { id } = useParams();
   let guid = id;
-  const isGuid = guid && isUUID(guid);
+  const isEdit = guid && isUUID(guid);
   guid = guid || uuid();
 
   const add = () => {
@@ -65,32 +75,47 @@ const WishList: FC = () => {
   };
 
   useEffect(() => {
-    if (isLoading || !isGuid) {
-      saveWishList(guid || uuid(), {
-        name: name,
-        items: items || [],
-      });
+    const save = isEdit ? updateWishList : saveWishList;
+    save({
+      id: guid || uuid(),
+      name: name,
+      items: items || [],
+    });
 
-      if (!isGuid) {
-        navigation(`${guid}`);
-      }
+    if (!isEdit) {
+      navigation(`${guid}`);
+      setIsLoading(true);
     }
-  }, [items, name, isGuid, guid, navigation, isLoading]);
+  }, [
+    items,
+    name,
+    isEdit,
+    guid,
+    navigation,
+    isLoading,
+    saveWishList,
+    updateWishList,
+  ]);
 
   useEffect(() => {
-    if (isGuid && guid && !isLoading) {
-      getById(guid).then((res) => {
-        const wishList = res as TWishList;
-
-        initialWishList(wishList);
-      });
+    if (isEdit && guid && !isLoading) {
+      getWishListById(guid)
+        .unwrap()
+        .then((res) => {
+          initialWishList(res);
+          guid &&
+            getWishListItems(guid)
+              .unwrap()
+              .then((result) => {
+                setItems(result);
+              });
+        });
     }
-  }, [isGuid, guid, isLoading]);
+  }, [isEdit, guid, isLoading, getWishListById, getWishListItems]);
 
   const initialWishList = (wishList?: TWishList) => {
     if (wishList) {
       setName(wishList.name);
-      setItems(wishList.items);
       setIsLoading(true);
     }
   };
@@ -127,7 +152,7 @@ const WishList: FC = () => {
 
       <input
         className={style.wishList__input}
-        placeholder="Имя хотелочки"
+        placeholder="Имя списка"
         value={name}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           onChange(e.target.value)
