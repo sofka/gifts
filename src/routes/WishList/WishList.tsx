@@ -14,7 +14,12 @@ import {
   useSaveWishListMutation,
   useUpdateWishListMutation,
 } from "../../redux/api/wishList";
-import { useGetByWishListIdMutation } from "../../redux/api/wishListItem";
+import {
+  useCreateWishListItemMutation,
+  useDeleteMutation,
+  useGetByWishListIdMutation,
+  useUpdateWishListItemMutation,
+} from "../../redux/api/wishListItem";
 
 enum CloseType {
   wishListItemWindow,
@@ -34,6 +39,10 @@ const WishList: FC = () => {
 
   const [saveWishList] = useSaveWishListMutation();
   const [updateWishList] = useUpdateWishListMutation();
+
+  const [createWishListItem] = useCreateWishListItemMutation();
+  const [updateWishListItem] = useUpdateWishListItemMutation();
+  const [deleteWishListItem] = useDeleteMutation();
   const navigation = useNavigate();
   const { id } = useParams();
   let guid = id;
@@ -57,20 +66,29 @@ const WishList: FC = () => {
   };
 
   const saveItem = (newItem: CWishListItem) => {
+    let isNew = false;
     if (newItem) {
       let newItems = [...(items || [])] || [];
-      const foundIndex = items?.findIndex((item) => {
-        return item.id === newItem.id;
-      });
-
-      if (foundIndex === -1 || foundIndex === undefined) {
+      const foundIndex =
+        items?.findIndex((item) => {
+          return item.id === newItem.id;
+        }) || 0;
+      isNew = foundIndex === -1 || foundIndex === undefined;
+      if (isNew) {
         newItems.push(newItem);
       } else {
         const before = [...newItems.slice(0, foundIndex)];
         const after = [...newItems.slice(foundIndex + 1, newItems.length)];
         newItems = [...before, newItem, ...after];
       }
-      setItems(newItems);
+
+      const saveWishListItem = isNew ? createWishListItem : updateWishListItem;
+      saveWishListItem(newItem)
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+          setItems(newItems);
+        });
     }
   };
 
@@ -135,10 +153,15 @@ const WishList: FC = () => {
     });
 
     if (foundIndex !== undefined && foundIndex !== -1 && items) {
-      const before = [...items.slice(0, foundIndex)];
-      const after = [...items.slice(foundIndex + 1, items.length)];
-      const newItems = [...before, ...after];
-      setItems(newItems);
+      selectedItem &&
+        deleteWishListItem(selectedItem.id.toString())
+          .unwrap()
+          .then((res) => {
+            const before = [...items.slice(0, foundIndex)];
+            const after = [...items.slice(foundIndex + 1, items.length)];
+            const newItems = [...before, ...after];
+            setItems(newItems);
+          });
     }
   };
 
@@ -177,6 +200,7 @@ const WishList: FC = () => {
           onClose={() => close(CloseType.wishListItemWindow)}
           saveItem={saveItem}
           selectedItem={selectedItem}
+          wishListId={guid}
         />
       )}
       {isOpenShareWindow && (

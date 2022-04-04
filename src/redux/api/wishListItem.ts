@@ -19,18 +19,24 @@ export const wishListItemApi = createApi({
     getByWishListId: builder.mutation<CWishListItem[], string>({
       query: id => `/wishListItemByWishListId/${id}`
     }),
-    saveWishList: builder.mutation<TResult, CWishListItem>({
-      query: wishlistItem => ({
-        url: `/wishlistitem`,
+    createWishListItem: builder.mutation<TResult, CWishListItem>({
+      query: wishListItem => ({
+        url: `wishListItem`,
         method: 'POST',
-        body: wishlistItem
+        body: JSON.parse(JSON.stringify(wishListItem))
       })
     }),
-    updateWishList: builder.mutation<TResult, CWishListItem>({
-      query: wishlistItem => ({
-        url: `/wishlistitem`,
+    updateWishListItem: builder.mutation<TResult, CWishListItem>({
+      query: wishListItem => ({
+        url: `wishListItem`,
         method: 'PUT',
-        body: wishlistItem
+        body: JSON.parse(JSON.stringify(wishListItem))
+      })
+    }),
+    delete: builder.mutation<TResult, string>({
+      query: id => ({
+        url: `/wishlistitem/${id}`,
+        method: 'DELETE'
       })
     })
   })
@@ -39,6 +45,7 @@ export const wishListItemApi = createApi({
 export const {
   useGetByWishListIdMutation,
   useGetByIdMutation,
-  useSaveWishListMutation,
-  useUpdateWishListMutation
+  useCreateWishListItemMutation,
+  useUpdateWishListItemMutation,
+  useDeleteMutation
 } = wishListItemApi

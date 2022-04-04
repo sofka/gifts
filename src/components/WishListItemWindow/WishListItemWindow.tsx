@@ -11,10 +11,11 @@ type WishListItemWindowProps = {
   onClose?: () => void;
   saveItem?: (newItem: CWishListItem) => void;
   selectedItem?: CWishListItem;
+  wishListId: string;
 };
 
 const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
-  const { onClose, saveItem, selectedItem } = props;
+  const { onClose, saveItem, selectedItem, wishListId } = props;
   const MAX_IMAGES = 3;
   const pastInputRef = createRef<HTMLInputElement>();
   const [images, setImages] = useState(selectedItem?.images || []);
@@ -27,6 +28,8 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
       selectedItem ? selectedItem.id : uuid(),
       name,
       name,
+      wishListId,
+
       images || [],
       links || []
     );
@@ -58,7 +61,7 @@ const WishListItemWindow: FC<WishListItemWindowProps> = (props) => {
   };
 
   const pastLink = (link: string) => {
-    const newSet = new Set<string>([...links, link])
+    const newSet = new Set<string>([...links, link]);
     const newLinks = Array.from(newSet);
     setLinks(newLinks);
   };
